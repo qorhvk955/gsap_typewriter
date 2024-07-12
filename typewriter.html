@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <section class="intro-sub">
+        <div class="typewriter">
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/TextPlugin.min.js"></script>
+
+    <script>
+
+        let index = 0;
+
+
+        const typewriter = document.querySelector('.typewriter');
+
+        const text = [
+            "안녕하세요 저는 주니어 개발자입니다.",
+            "두 번째 소개 글 입니다.",
+            "세 번째 소개 글 입니다."
+        ]
+
+        startFirstAnimation(index);
+
+        function startFirstAnimation(index) {
+
+            if ( index === text.length ) return;
+            
+            const tl = gsap.timeline();
+
+            tl.to(typewriter, {
+                duration: text[index].length * 0.2,
+                text: text[index],
+                ease: "steps(" + text[index].length + ")",
+                onComplete: () => {
+                    gsap.delayedCall(0.2, () => {
+                        tl.timeScale(3);
+                        tl.reverse().eventCallback("onReverseComplete", () => {
+                            index++;
+                            startFirstAnimation(index);
+                        });
+                    });
+                }
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>
